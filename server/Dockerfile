@@ -1,18 +1,16 @@
-FROM jboss/base-jdk:8
+FROM 
 
-ENV KEYCLOAK_VERSION 4.2.1.Final
+ENV KEYCLOAK_VERSION 4.3.0
 # Enables signals getting passed from startup script to JVM
 # ensuring clean shutdown when container is stopped.
 ENV LAUNCH_JBOSS_IN_BACKGROUND 1
 ENV PROXY_ADDRESS_FORWARDING false
 USER root
 
-RUN yum install -y epel-release git && yum clean all
-# The package epel-release has to be present before jq can be installed, so
-# this has to be done in a separate line, after installation of epel-release is
-# done:
-RUN yum install -y jq && yum clean all
-
+RUN INSTALL_PKGS="java-1.8.0-openjdk maven" && \
+    dnf install -y --setopt=tsflags=nodocs $INSTALL_PKGS && \
+    dnf clean all -y
+    
 USER jboss
 
 ARG GIT_REPO
