@@ -7,12 +7,6 @@ if [ "$GIT_REPO" != "" ]; then
 
     echo "Build from https://github.com/$GIT_REPO (branch $GIT_BRANCH)"
 
-    # Install Maven
-    cd /opt/jboss 
-    curl -s http://apache.uib.no/maven/maven-3/3.5.3/binaries/apache-maven-3.5.3-bin.tar.gz | tar xz
-    mv apache-maven-3.5.3 /opt/jboss/maven
-    export M2_HOME=/opt/jboss/maven
-
     # Clone repository
     git clone --depth 1 https://github.com/$GIT_REPO.git -b $GIT_BRANCH /opt/jboss/keycloak-source
 
