@@ -7,9 +7,19 @@ ENV LAUNCH_JBOSS_IN_BACKGROUND 1
 ENV PROXY_ADDRESS_FORWARDING false
 USER root
 
-RUN INSTALL_PKGS="java-1.8.0-openjdk maven" && \
+RUN INSTALL_PKGS="java-1.8.0-openjdk maven xmlstarlet saxon augeas bsdtar unzip " && \
     dnf install -y --setopt=tsflags=nodocs $INSTALL_PKGS && \
     dnf clean all -y
+    
+# Create a user and group used to launch processes
+# The user ID 1000 is the default for the first "regular" user on Fedora/RHEL,
+# so there is a high chance that this ID will be equal to the current user
+# making it easier to use volumes (no permission issues)
+RUN groupadd -r jboss -g 1000 && useradd -u 1000 -r -g jboss -m -d /opt/jboss -s /sbin/nologin -c "JBoss user" jboss && \
+    chmod 755 /opt/jboss
+
+# Set the working directory to jboss' user home directory
+WORKDIR /opt/jboss
     
 USER jboss
 
