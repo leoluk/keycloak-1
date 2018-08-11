@@ -7,7 +7,7 @@ ENV LAUNCH_JBOSS_IN_BACKGROUND 1
 ENV PROXY_ADDRESS_FORWARDING false
 USER root
 
-RUN INSTALL_PKGS="java-1.8.0-openjdk maven xmlstarlet saxon augeas bsdtar unzip " && \
+RUN INSTALL_PKGS="java-1.8.0-openjdk maven xmlstarlet saxon augeas bsdtar unzip git" && \
     dnf install -y --setopt=tsflags=nodocs $INSTALL_PKGS && \
     dnf clean all -y
     
